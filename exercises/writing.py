@@ -14,11 +14,8 @@ def generate_exercises(niveau, count=5):
     if niveau not in generators:
         raise ValueError(f"Niveau {niveau} non supporté")
     
-    exercises = []
-    for _ in range(count):
-        exercises.append(generators[niveau]())
-    
-    return exercises
+    all_templates = generators[niveau]()
+    return random.sample(all_templates, min(count, len(all_templates)))
 
 
 def generate_niveau1():
@@ -322,10 +319,7 @@ Exemples :
         }
     ]
 
-    template = random.choice(templates)
-    content = template['question']+"""\\cadreligne"""
-
-    return {'content': content}
+    return [{'content': t['question'] + """\\cadreligne"""} for t in templates]
 def generate_niveau2():
     """Boucle for sans if, sur liste/tuple/dict, avec une variable à gérer"""
 
@@ -668,9 +662,7 @@ Exemples :
         },
     ]
 
-    template = random.choice(templates)
-    content = template['question'] + """\\cadreligne"""
-    return {'content': content}
+    return [{'content': t['question'] + """\\cadreligne"""} for t in templates]
 
 def generate_niveau3():
     """Boucle for avec un if à l'intérieur"""
@@ -950,9 +942,7 @@ Exemples :
         },
     ]
 
-    template = random.choice(templates)
-    content = template['question'] + """\\cadreligne"""
-    return {'content': content}
+    return [{'content': t['question'] + """\\cadreligne"""} for t in templates]
 
 def generate_niveau4():
     """Double boucle for, avec ou sans if"""
@@ -1148,9 +1138,7 @@ Exemples :
         },
     ]
 
-    template = random.choice(templates)
-    content = template['question'] + """\\cadreligne"""
-    return {'content': content}
+    return [{'content': t['question'] + """\\cadreligne"""} for t in templates]
 
 def generate_niveau5():
     """Fonction avec plusieurs boucles for et if imbriqués"""
@@ -1169,18 +1157,16 @@ def generate_niveau5():
         }
     ]
 
-    template = random.choice(templates)
+    def _render5(t):
+        if callable(t['question']):
+            if 'pythagoriciens' in t['question'](10):
+                return t['question'](random.randint(10, 15))
+            else:
+                lst = [random.randint(1, 20) for _ in range(random.randint(8, 12))]
+                return t['question'](lst)
+        return t['question']
 
-    if callable(template['question']):
-        if 'pythagoriciens' in template['question'](10):
-            content = template['question'](random.randint(10, 15))
-        else:
-            lst = [random.randint(1, 20) for _ in range(random.randint(8, 12))]
-            content = template['question'](lst)
-    else:
-        content = template['question']
-
-    return {'content': content}
+    return [{'content': _render5(t)} for t in templates]
 
 def generate_niveau6():
     """Fonction complexe avec multiples structures imbriquées"""
@@ -1196,6 +1182,4 @@ def generate_niveau6():
         }
     ]
     
-    content = random.choice(templates)['question']
-    
-    return {'content': content}
+    return [{'content': t['question']} for t in templates]

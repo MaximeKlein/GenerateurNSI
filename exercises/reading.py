@@ -16,11 +16,8 @@ def generate_exercises(niveau, count=5):
     if niveau not in generators:
         raise ValueError(f"Niveau {niveau} non supporté")
     
-    exercises = []
-    for _ in range(count):
-        exercises.append(generators[niveau]())
-    
-    return exercises
+    all_templates = generators[niveau]()
+    return random.sample(all_templates, min(count, len(all_templates)))
 
 
 def generate_niveau1():
@@ -170,9 +167,7 @@ def generate_niveau1():
         },
     ]
 
-    template = random.choice(templates)
-    content = f"\\begin{{lstlisting}}\n{template['code']}\n\\end{{lstlisting}}\n\n{template['question']}"
-    return {'content': content}
+    return [{'content': f"\\begin{{lstlisting}}\n{t['code']}\n\\end{{lstlisting}}\n\n{t['question']}"} for t in templates]
 
 
 def generate_niveau2():
@@ -294,9 +289,7 @@ def generate_niveau2():
         },
     ]
 
-    template = random.choice(templates)
-    content = f"\\begin{{lstlisting}}\n{template['code']}\n\\end{{lstlisting}}\n\n{template['question']}"
-    return {'content': content}
+    return [{'content': f"\\begin{{lstlisting}}\n{t['code']}\n\\end{{lstlisting}}\n\n{t['question']}"} for t in templates]
 
 
 def generate_niveau3():
@@ -439,9 +432,7 @@ def generate_niveau3():
         },
     ]
 
-    template = random.choice(templates)
-    content = f"\\begin{{lstlisting}}\n{template['code']}\n\\end{{lstlisting}}\n\n{template['question']}"
-    return {'content': content}
+    return [{'content': f"\\begin{{lstlisting}}\n{t['code']}\n\\end{{lstlisting}}\n\n{t['question']}"} for t in templates]
 
 def generate_niveau4():
     """Code avec deux boucles for imbriquées"""
@@ -581,9 +572,7 @@ def generate_niveau4():
         },
     ]
 
-    template = random.choice(templates)
-    content = f"\\begin{{lstlisting}}\n{template['code']}\n\\end{{lstlisting}}\n\n{template['question']}"
-    return {'content': content}
+    return [{'content': f"\\begin{{lstlisting}}\n{t['code']}\n\\end{{lstlisting}}\n\n{t['question']}"} for t in templates]
 
 def generate_niveau5():
     """Code avec plusieurs structures imbriquées"""
@@ -617,11 +606,7 @@ def generate_niveau5():
         }
     ]
     
-    template = random.choice(templates)
-    
-    content = f"Analysez attentivement le code suivant et répondez à la question :\n\n\\begin{{lstlisting}}\n{template['code']}\n\\end{{lstlisting}}\n\n{template['question']}"
-    
-    return {'content': content}
+    return [{'content': f"Analysez attentivement le code suivant et répondez à la question :\n\n\\begin{{lstlisting}}\n{t['code']}\n\\end{{lstlisting}}\n\n{t['question']}"} for t in templates]
 
 def generate_niveau6():
     """Code complexe"""
@@ -648,8 +633,4 @@ def generate_niveau6():
         }
     ]
     
-    template = random.choice(templates)
-    
-    content = f"Analysez le code suivant :\n\n\\begin{{lstlisting}}\n{template['code']}\n\\end{{lstlisting}}\n\n{template['question']}"
-    
-    return {'content': content}
+    return [{'content': f"Analysez le code suivant :\n\n\\begin{{lstlisting}}\n{t['code']}\n\\end{{lstlisting}}\n\n{t['question']}"} for t in templates]
