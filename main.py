@@ -1,8 +1,20 @@
 import argparse
 import csv
 import subprocess
+import os
 
 from generator import InterrogationGenerator
+
+def assemblage_fichiers(c):
+    print(f"Génération du fichier global pour la classe {c}")
+    try:
+        os.system(f'pdfunite output/*.pdf output_classe_{c}.pdf')
+
+        os.system('mkdir -p output/indiv; mv output/*.pdf output/indiv/')
+        return c+1
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors du pdfunite : {e}")
+        raise
 
 def main():
     parser = argparse.ArgumentParser(description='Générateur d\'interrogations NSI')
@@ -16,25 +28,12 @@ def main():
     generator = InterrogationGenerator()
 
     with open("eleves.csv", newline="", encoding="utf-8") as fichier:
-        lecteur = csv.DictReader(fichier, delimiter=',')
-        i=0
+        lecteur = csv.DictReader(fichier, delimiter=';')
+        c=1
         for ligne in lecteur:
-            if i==0:
-                if ligne["eleve"] == "":
-                    i+=1
-                continue
             print(ligne)
             if ligne["eleve"] == "":
-                try:
-                    subprocess.run(
-                        'pdfunite output/*.pdf output.pdf',
-                        check=True,
-                        capture_output=True
-                    )
-                    break
-                except subprocess.CalledProcessError as e:
-                    print(f"Erreur lors du pdfunite : {e}")
-                    raise
+                c=assemblage_fichiers(c)
 
             else:
                 path = f"output/{ligne["eleve"].replace(" ","_")}.pdf"
@@ -48,6 +47,7 @@ def main():
                     eleve=ligne["eleve"]
                 )
                 print(f"Interrogation générée : {path}")
+        assemblage_fichiers(c)
 
 if __name__ == "__main__":
     main()
