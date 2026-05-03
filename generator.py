@@ -37,6 +37,7 @@ class InterrogationGenerator:
         
         # Compiler en PDF
         self.compile_to_pdf(latex_content, output_path)
+        return exercises
     
     def create_latex_content(self, nom, classe, axe, niveau, exercises,eleve):
         """Crée le contenu LaTeX"""
@@ -149,6 +150,55 @@ class InterrogationGenerator:
         
         return template
     
+    def generate_corrige(self, entries, nom, classe, output_path):
+        """Génère le PDF de corrigé pour tous les élèves en analyse.
+
+        entries : liste de dicts  {'eleve': str, 'niveau': int, 'exercises': list}
+        """
+        if not entries:
+            return
+
+        date = datetime.now().strftime("%d/%m/%Y")
+
+        blocs = []
+        for entry in entries:
+            eleve   = entry['eleve']
+            niveau  = entry['niveau']
+            exos    = entry['exercises']
+            items   = "\n".join(
+                f"\\item {ex['answer']}"
+                for ex in exos
+            )
+            blocs.append(
+                f"\\subsection*{{\\normalfont {eleve} — Analyse N{niveau}}}\n"
+                f"\\begin{{enumerate}}\n{items}\n\\end{{enumerate}}"
+            )
+
+        corps = "\n\n".join(blocs)
+
+        latex = (
+            r"\documentclass[11pt,a4paper]{article}" "\n"
+            r"\usepackage[utf8]{inputenc}" "\n"
+            r"\usepackage[french]{babel}" "\n"
+            r"\usepackage[T1]{fontenc}" "\n"
+            r"\usepackage{lmodern}" "\n"
+            r"\usepackage{amsmath}" "\n"
+            r"\usepackage{geometry}" "\n"
+            r"\usepackage{fancyhdr}" "\n"
+            r"\geometry{margin=2cm}" "\n"
+            r"\pagestyle{fancy}\fancyhf{}" "\n"
+            r"\lhead{" + classe + r"}"
+            r"\rhead{" + date + r" — Corrigé analyse}"
+            r"\cfoot{\thepage}" "\n"
+            r"\begin{document}" "\n"
+            r"\begin{center}{\Large\textbf{" + nom + r" — Corrigé}}\end{center}" "\n"
+            r"\vspace{0.5cm}" "\n"
+            + corps + "\n"
+            r"\end{document}"
+        )
+
+        self.compile_to_pdf(latex, output_path)
+
     def compile_to_pdf(self, latex_content, output_path):
         """Compile le LaTeX en PDF"""
         # Créer les dossiers nécessaires
