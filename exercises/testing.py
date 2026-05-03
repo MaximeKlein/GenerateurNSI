@@ -63,7 +63,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel=f"est_pair({pair})", attendu="True", obtenu="False",
+            appel=f"est\\_pair({pair})", attendu="True", obtenu="False",
         ),
         dict(
             description="renvoyer le maximum de deux nombres",
@@ -90,7 +90,7 @@ def gen_niveau1():
         return x
     else:
         return -x""",
-            appel=f"valeur_absolue({-a})", attendu=str(a), obtenu=str(-a),
+            appel=f"valeur\\_absolue({-a})", attendu=str(a), obtenu=str(-a),
         ),
         dict(
             description="renvoyer \\texttt{True} si \\texttt{a} et \\texttt{b} sont égaux",
@@ -99,7 +99,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel=f"sont_egaux({a}, {a})", attendu="True", obtenu="False",
+            appel=f"sont\\_egaux({a}, {a})", attendu="True", obtenu="False",
         ),
         dict(
             description="renvoyer \\texttt{True} si la liste est vide, \\texttt{False} sinon",
@@ -108,7 +108,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel="est_vide([])", attendu="True", obtenu="False",
+            appel="est\\_vide([])", attendu="True", obtenu="False",
         ),
         dict(
             description="renvoyer \\texttt{True} si \\texttt{n} est impair, \\texttt{False} sinon",
@@ -117,7 +117,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel=f"est_impair({impair})", attendu="True", obtenu="False",
+            appel=f"est\\_impair({impair})", attendu="True", obtenu="False",
         ),
         dict(
             description="renvoyer \\texttt{True} si \\texttt{n} est divisible par \\texttt{d}",
@@ -126,7 +126,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel=f"est_divisible({b * 3}, {b})", attendu="True", obtenu="False",
+            appel=f"est\\_divisible({b * 3}, {b})", attendu="True", obtenu="False",
         ),
         dict(
             description="calculer la différence \\texttt{a - b}",
@@ -154,7 +154,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel="est_positif(0)", attendu="False", obtenu="True",
+            appel="est\\_positif(0)", attendu="False", obtenu="True",
         ),
         dict(
             description="renvoyer \\texttt{True} si \\texttt{x} est strictement négatif",
@@ -163,7 +163,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel="est_negatif(0)", attendu="False", obtenu="True",
+            appel="est\\_negatif(0)", attendu="False", obtenu="True",
         ),
         dict(
             description="renvoyer \\texttt{True} si \\texttt{a} est strictement supérieur à \\texttt{b}",
@@ -172,7 +172,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel=f"strictement_superieur({a}, {a})", attendu="False", obtenu="True",
+            appel=f"strictement\\_superieur({a}, {a})", attendu="False", obtenu="True",
         ),
         dict(
             description="renvoyer \\texttt{True} si le mot commence par une voyelle (a, e, i, o, u ou y)",
@@ -181,7 +181,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel="commence_par_voyelle('yeux')", attendu="True", obtenu="False",
+            appel="commence\\_par\\_voyelle('yeux')", attendu="True", obtenu="False",
         ),
         # ── Erreur courante : mauvaise opération ou variable ──
         dict(
@@ -194,7 +194,7 @@ def gen_niveau1():
             description="convertir un mot en minuscules",
             code="""def en_minuscules(mot):
     return mot.upper()""",
-            appel="en_minuscules('PYTHON')", attendu="'python'", obtenu="'PYTHON'",
+            appel="en\\_minuscules('PYTHON')", attendu="'python'", obtenu="'PYTHON'",
         ),
         dict(
             description="renvoyer le reste de la division de \\texttt{a} par \\texttt{b}",
@@ -212,13 +212,13 @@ def gen_niveau1():
             description="renvoyer le premier caractère d'un mot",
             code="""def premier_caractere(mot):
     return mot[-1]""",
-            appel="premier_caractere('python')", attendu="'p'", obtenu="'n'",
+            appel="premier\\_caractere('python')", attendu="'p'", obtenu="'n'",
         ),
         dict(
             description="renvoyer le dernier caractère d'un mot",
             code="""def dernier_caractere(mot):
     return mot[0]""",
-            appel="dernier_caractere('python')", attendu="'n'", obtenu="'p'",
+            appel="dernier\\_caractere('python')", attendu="'n'", obtenu="'p'",
         ),
         dict(
             description="renvoyer \\texttt{True} si un mot contient la lettre 'a'",
@@ -227,7 +227,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel="contient_a('chat')", attendu="True", obtenu="False",
+            appel="contient\\_a('chat')", attendu="True", obtenu="False",
         ),
         dict(
             description="renvoyer \\texttt{True} si deux mots ont la même longueur",
@@ -236,7 +236,7 @@ def gen_niveau1():
         return True
     else:
         return False""",
-            appel="meme_longueur('abc', 'xyz')", attendu="True", obtenu="False",
+            appel="meme\\_longueur('abc', 'xyz')", attendu="True", obtenu="False",
         ),
     ]
     t = random.choice(templates)
@@ -263,7 +263,7 @@ def gen_niveau2():
     for i in range(liste):
         total += liste[i]
     return total""",
-            appel=f"somme_liste({lst})",
+            appel=f"somme\\_liste({lst})",
             attendu=str(sum(lst)),
             obtenu="une erreur \\texttt{TypeError} (\\texttt{range()} attend un entier, pas une liste)",
         ),
@@ -286,7 +286,7 @@ def gen_niveau2():
     for i in range(n):
         total += i
     return total""",
-            appel=f"somme_n({m})",
+            appel=f"somme\\_n({m})",
             attendu=str(sum(range(1, m + 1))),
             obtenu=str(sum(range(m))),
         ),
@@ -297,7 +297,7 @@ def gen_niveau2():
     for i in range(n):
         resultat.append(i)
     return resultat""",
-            appel=f"liste_entiers({m})",
+            appel=f"liste\\_entiers({m})",
             attendu=str(list(range(1, m + 1))),
             obtenu=str(list(range(m))),
         ),
@@ -309,7 +309,7 @@ def gen_niveau2():
     for i in range(len(liste) - 1):
         total += liste[i]
     return total""",
-            appel=f"somme_liste({lst})",
+            appel=f"somme\\_liste({lst})",
             attendu=str(sum(lst)),
             obtenu=str(sum(lst[:-1])),
         ),
@@ -343,7 +343,7 @@ def gen_niveau2():
     for x in liste:
         resultat *= x
     return resultat""",
-            appel=f"produit_liste({petite})",
+            appel=f"produit\\_liste({petite})",
             attendu=str(petite[0] * petite[1] * petite[2]),
             obtenu="0",
         ),
@@ -355,7 +355,7 @@ def gen_niveau2():
     for i in range(1, n + 1):
         total = i ** 2
     return total""",
-            appel=f"somme_carres({m})",
+            appel=f"somme\\_carres({m})",
             attendu=str(sum(i ** 2 for i in range(1, m + 1))),
             obtenu=str(m ** 2),
         ),
@@ -414,7 +414,7 @@ def gen_niveau2():
     for c in mot:
         resultat = c * 2 + resultat
     return resultat""",
-            appel=f"repeter_lettres('{mot[:3]}')",
+            appel=f"repeter\\_lettres('{mot[:3]}')",
             attendu="".join(c * 2 for c in mot[:3]),
             obtenu="".join(c * 2 for c in reversed(mot[:3])),
         ),
@@ -426,7 +426,7 @@ def gen_niveau2():
     for i in range(len(liste)):
         total += i
     return total""",
-            appel=f"somme_indices({lst})",
+            appel=f"somme\\_indices({lst})",
             attendu=str(sum(lst)),
             obtenu=str(sum(range(len(lst)))),
         ),
@@ -455,7 +455,7 @@ def gen_niveau3():
         if liste[i] >= 0:
             compteur += 1
     return compteur""",
-            appel=f"compter_positifs({lst_mix})",
+            appel=f"compter\_positifs({lst_mix})",
             attendu=str(sum(1 for x in lst_mix if x > 0)),
             obtenu="une erreur \\texttt{TypeError} (de plus, la condition \\texttt{>= 0} compte aussi le zéro)",
             nb_erreurs=2,
@@ -469,7 +469,7 @@ def gen_niveau3():
         if x % 2 == 1:
             compteur += 1
     return compteur""",
-            appel=f"compter_pairs({lst_int})",
+            appel=f"compter\_pairs({lst_int})",
             attendu=str(sum(1 for x in lst_int if x % 2 == 0)),
             obtenu=str(1 + sum(1 for x in lst_int if x % 2 == 1)),
             nb_erreurs=2,
@@ -483,7 +483,7 @@ def gen_niveau3():
         if liste[i] > seuil:
             total = liste[i]
     return total""",
-            appel=f"somme_superieurs({lst_int}, {seuil})",
+            appel=f"somme\_superieurs({lst_int}, {seuil})",
             attendu=str(sum(x for x in lst_int if x > seuil)),
             obtenu=f"seulement le dernier élément trouvé > {seuil} (= au lieu de +=, et dernier élément manqué)",
             nb_erreurs=2,
@@ -511,7 +511,7 @@ def gen_niveau3():
         if mot[i] in 'aeiou':
             resultat.append(i)
     return resultat""",
-            appel=f"lister_voyelles('{mot[:5]}')",
+            appel=f"lister\_voyelles('{mot[:5]}')",
             attendu=str([c for c in mot[:5] if c in 'aeiouy']),
             obtenu=str([i for i, c in enumerate(mot[:5]) if c in 'aeiou']),
             nb_erreurs=2,
@@ -525,7 +525,7 @@ def gen_niveau3():
         if x > 0:
             resultat.append(x)
     return resultat""",
-            appel=f"garder_negatifs({lst_mix})",
+            appel=f"garder\_negatifs({lst_mix})",
             attendu=str([x for x in lst_mix if x < 0]),
             obtenu=str([x for x in lst_mix if x > 0]),
             nb_erreurs=1,
@@ -539,7 +539,7 @@ def gen_niveau3():
         if x > mini:
             mini = x
     return mini""",
-            appel=f"trouver_min({lst_int})",
+            appel=f"trouver\_min({lst_int})",
             attendu=str(min(lst_int)),
             obtenu=f"le maximum de la liste (initialisation à 0 et condition inversée)",
             nb_erreurs=2,
@@ -553,7 +553,7 @@ def gen_niveau3():
         if liste[i] % 2 == 0:
             total = liste[i]
     return total""",
-            appel=f"somme_pairs({lst_int})",
+            appel=f"somme\_pairs({lst_int})",
             attendu=str(sum(x for x in lst_int if x % 2 == 0)),
             obtenu="une erreur \\texttt{TypeError} (de plus, \\texttt{=} au lieu de \\texttt{+=})",
             nb_erreurs=2,
@@ -567,7 +567,7 @@ def gen_niveau3():
         if i in 'aeiouy':
             compteur += 1
     return compteur""",
-            appel=f"compter_voyelles('{mot}')",
+            appel=f"compter\_voyelles('{mot}')",
             attendu=str(sum(1 for c in mot if c in 'aeiouy')),
             obtenu="0 (on compare un indice entier à une chaîne, jamais vrai)",
             nb_erreurs=2,
@@ -582,7 +582,7 @@ def gen_niveau3():
         if x <= 0:
             resultat.append(0)
     return resultat""",
-            appel=f"remplacer_negatifs({lst_mix})",
+            appel=f"remplacer\_negatifs({lst_mix})",
             attendu=str([0 if x < 0 else x for x in lst_mix]),
             obtenu="une liste incomplète (pas d'\\texttt{else}, et \\texttt{<= 0} inclut le zéro)",
             nb_erreurs=2,
@@ -596,7 +596,7 @@ def gen_niveau3():
         if note >= 10:
             resultat.append(note)
     return resultat""",
-            appel="eleves_reussite({'Alice': 15, 'Bob': 8, 'Charlie': 12})",
+            appel="eleves\_reussite({'Alice': 15, 'Bob': 8, 'Charlie': 12})",
             attendu="['Alice', 'Charlie']",
             obtenu="[15, 12] (on itère sur les valeurs, pas les clés)",
             nb_erreurs=2,
@@ -627,7 +627,7 @@ def gen_niveau4():
         for j in range(len(matrice[i])):
             total = matrice[i][j]
     return total""",
-            appel=f"somme_matrice({mat})",
+            appel=f"somme\_matrice({mat})",
             attendu=str(sum(x for row in mat for x in row)),
             obtenu="une erreur \\texttt{TypeError} (et deux autres erreurs dans le code)",
             nb_erreurs=3,
@@ -643,7 +643,7 @@ def gen_niveau4():
             ligne.append(i * j)
         resultat.append(ligne)
     return resultat""",
-            appel=f"table_mult({n})",
+            appel=f"table\_mult({n})",
             attendu=f"une matrice {n}×{n} dont l'élément [i][j] vaut (i+1)*(j+1)",
             obtenu=f"une matrice {n+1}×{n+1} incluant une ligne et colonne de zéros (range commence à 0)",
             nb_erreurs=2,
