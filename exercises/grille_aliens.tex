@@ -1,0 +1,118 @@
+% Grille d'aliens - À intégrer dans votre document LaTeX
+% Nécessite les packages: tikz, array, xcolor
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+
+% Définition des styles
+\tikzset{
+    alien/.style={rectangle, draw=black, thick, minimum width=3cm, minimum height=2cm, align=center, font=\small},
+}
+
+\node[alien] at (0.0,0.0) {
+    \textbf{\lizard} \\
+    \vspace{0.2cm} \\
+    \textit{Il n'y a aucun menteur \\ parmi les 👾}
+};
+
+\node[alien] at (3.5,0.0) {
+    \textbf{\alien} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 1 menteur(s) \\ parmi les 🛸}
+};
+
+\node[alien] at (7.0,0.0) {
+    \textbf{\invader} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a au moins un \\ menteur parmi les 🛸}
+};
+
+\node[alien] at (10.5,0.0) {
+    \textbf{\lizard} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a au moins un \\ menteur parmi les 👾}
+};
+
+\node[alien] at (0.0,-2.5) {
+    \textbf{\robot} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 0 menteur(s) \\ parmi les 🤖}
+};
+
+\node[alien] at (3.5,-2.5) {
+    \textbf{\robot} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 0 menteur(s) \\ parmi les 👽}
+};
+
+\node[alien] at (7.0,-2.5) {
+    \textbf{\robot} \\
+    \vspace{0.2cm} \\
+    \textit{Mon voisin de droite dit \\ la vérité}
+};
+
+\node[alien] at (10.5,-2.5) {
+    \textbf{\alien} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a au moins un \\ menteur parmi les 👾}
+};
+
+\node[alien] at (0.0,-5.0) {
+    \textbf{\invader} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 1 menteur(s) \\ parmi les 👽}
+};
+
+\node[alien] at (3.5,-5.0) {
+    \textbf{\lizard} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a au moins un \\ menteur parmi les 👾}
+};
+
+\node[alien] at (7.0,-5.0) {
+    \textbf{\lizard} \\
+    \vspace{0.2cm} \\
+    \textit{Mon voisin de droite dit \\ la vérité}
+};
+
+\node[alien] at (10.5,-5.0) {
+    \textbf{\invader} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 1 menteur(s) \\ parmi les 🦎}
+};
+
+\node[alien] at (0.0,-7.5) {
+    \textbf{\lizard} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a au moins un \\ menteur parmi les 🛸}
+};
+
+\node[alien] at (3.5,-7.5) {
+    \textbf{\lizard} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 0 menteur(s) \\ parmi les 🤖}
+};
+
+\node[alien] at (7.0,-7.5) {
+    \textbf{\alien} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a 4 alien(s) dans \\ la ligne 4}
+};
+
+\node[alien] at (10.5,-7.5) {
+    \textbf{\saucer} \\
+    \vspace{0.2cm} \\
+    \textit{Il y a au moins un \\ menteur parmi les 🤖}
+};
+
+\end{tikzpicture}
+\end{center}
+
+% Solution (à commenter ou supprimer pour la version puzzle)
+% \vspace{1cm}
+% \textbf{Solution:}
+% \begin{itemize}
+% \item Position [1,1]: \lizard (MENTEUR)
+% \item Position [3,1]: \invader (MENTEUR)
+% \item Position [4,4]: \saucer (MENTEUR)
+% \end{itemize}
