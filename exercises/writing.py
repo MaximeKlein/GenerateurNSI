@@ -77,18 +77,6 @@ Exemples :
 \\end{{itemize}}"""
         },
 
-        # Template 3: Voyelle
-        {
-            'question': f"""Écrire une fonction \\texttt{{commence\\_par\\_voyelle(mot)}} qui renvoie \\texttt{{True}} si le mot commence par une voyelle (a, e, i, o, u, y), \\texttt{{False}} sinon.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{commence\\_par\\_voyelle('arbre')}} doit renvoyer \\texttt{{True}}
-\\item \\texttt{{commence\\_par\\_voyelle('maison')}} doit renvoyer \\texttt{{False}}
-\\item \\texttt{{commence\\_par\\_voyelle('usine')}} doit renvoyer \\texttt{{True}}
-\\end{{itemize}}"""
-        },
-
         # Template 4: Liste vide
         {
             'question': f"""Écrire une fonction \\texttt{{est\\_vide(liste)}} qui renvoie \\texttt{{True}} si la liste est vide, \\texttt{{False}} sinon.
@@ -193,18 +181,6 @@ Exemples :
 \\end{{itemize}}"""
         },
 
-        # Template 13: Premier caractère majuscule
-        {
-            'question': f"""Écrire une fonction \\texttt{{majuscule\\_debut(mot)}} qui renvoie \\texttt{{True}} si le premier caractère du mot est une majuscule, \\texttt{{False}} sinon.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{majuscule\\_debut('Python')}} doit renvoyer \\texttt{{True}}
-\\item \\texttt{{majuscule\\_debut('python')}} doit renvoyer \\texttt{{False}}
-\\item \\texttt{{majuscule\\_debut('NSI')}} doit renvoyer \\texttt{{True}}
-\\end{{itemize}}"""
-        },
-
         # Template 14: Longueur paire
         {
             'question': f"""Écrire une fonction \\texttt{{longueur\\_paire(mot)}} qui renvoie \\texttt{{True}} si la longueur du mot est paire, \\texttt{{False}} sinon.
@@ -242,18 +218,6 @@ Exemples :
 \\item \\texttt{{est\\_bissextile\\_simple(2024)}} doit renvoyer \\texttt{{True}}
 \\item \\texttt{{est\\_bissextile\\_simple(2023)}} doit renvoyer \\texttt{{False}}
 \\item \\texttt{{est\\_bissextile\\_simple(2020)}} doit renvoyer \\texttt{{True}}
-\\end{{itemize}}"""
-        },
-
-        # Template 17: Contient un caractère
-        {
-            'question': f"""Écrire une fonction \\texttt{{contient\\_caractere(mot, char)}} qui renvoie \\texttt{{True}} si le mot contient le caractère \\texttt{{char}}, \\texttt{{False}} sinon.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{contient\\_caractere('python', 'y')}} doit renvoyer \\texttt{{True}}
-\\item \\texttt{{contient\\_caractere('python', 'a')}} doit renvoyer \\texttt{{False}}
-\\item \\texttt{{contient\\_caractere('nsi', 's')}} doit renvoyer \\texttt{{True}}
 \\end{{itemize}}"""
         },
 
@@ -593,15 +557,6 @@ Exemples :
 \\end{{itemize}}"""
         },
         {
-            'question': f"""Écrire une fonction \\texttt{{en\\_majuscules(mot)}} qui renvoie une nouvelle chaîne où chaque caractère a été mis en majuscule, en parcourant le mot avec une boucle \\texttt{{for}} et en utilisant \\texttt{{.upper()}} sur chaque caractère.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{en\\_majuscules('{mot1}')}} doit renvoyer \\texttt{{'{mot1.upper()}'}}
-\\item \\texttt{{en\\_majuscules('abc')}} doit renvoyer \\texttt{{'ABC'}}
-\\end{{itemize}}"""
-        },
-        {
             'question': f"""Écrire une fonction \\texttt{{concatener\\_liste(liste)}} qui prend une liste de mots et renvoie une seule chaîne formée de tous les mots mis bout à bout, séparés par un espace (sans utiliser \\texttt{{.join()}}).
 
 Exemples :
@@ -887,24 +842,6 @@ Exemples :
         },
         # --- Chaînes avec if ---
         {
-            'question': f"""Écrire une fonction \\texttt{{compter\\_voyelles(mot)}} qui renvoie le nombre de voyelles (a, e, i, o, u, y) dans un mot.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{compter\\_voyelles('{mot1}')}} doit renvoyer \\texttt{{{sum(1 for c in mot1 if c in 'aeiouy')}}}
-\\item \\texttt{{compter\\_voyelles('xyz')}} doit renvoyer \\texttt{{1}}
-\\end{{itemize}}"""
-        },
-        {
-            'question': f"""Écrire une fonction \\texttt{{supprimer\\_voyelles(mot)}} qui renvoie le mot sans les voyelles (a, e, i, o, u, y).
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{supprimer\\_voyelles('{mot1}')}} doit renvoyer \\texttt{{'{("".join(c for c in mot1 if c not in "aeiouy"))}'}}
-\\item \\texttt{{supprimer\\_voyelles('bonjour')}} doit renvoyer \\texttt{{'bnjr'}}
-\\end{{itemize}}"""
-        },
-        {
             'question': f"""Écrire une fonction \\texttt{{garder\\_lettres(mot)}} qui renvoie une nouvelle chaîne contenant uniquement les lettres (pas les chiffres ni les espaces) d'un mot.
 
 Indice : utiliser \\texttt{{.isalpha()}} sur chaque caractère.
@@ -913,17 +850,6 @@ Exemples :
 \\begin{{itemize}}
 \\item \\texttt{{garder\\_lettres('abc123')}} doit renvoyer \\texttt{{'abc'}}
 \\item \\texttt{{garder\\_lettres('a 1 b 2')}} doit renvoyer \\texttt{{'ab'}}
-\\end{{itemize}}"""
-        },
-        {
-            'question': f"""Écrire une fonction \\texttt{{contient\\_doublon(liste)}} qui renvoie \\texttt{{True}} si la liste contient au moins un élément en double, \\texttt{{False}} sinon.
-
-Indice : utiliser une liste de déjà-vus.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{contient\\_doublon([1, 2, 3, 2])}} doit renvoyer \\texttt{{True}}
-\\item \\texttt{{contient\\_doublon({liste_int})}} doit renvoyer \\texttt{{{str(len(liste_int) != len(set(liste_int)))}}}
 \\end{{itemize}}"""
         },
         {
@@ -936,32 +862,12 @@ Exemples :
 \\end{{itemize}}"""
         },
         {
-            'question': f"""Écrire une fonction \\texttt{{elements\\_uniques(liste)}} qui renvoie une nouvelle liste contenant chaque élément une seule fois, dans l'ordre d'apparition.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{elements\\_uniques([1, 2, 3, 2, 1, 4])}} doit renvoyer \\texttt{{[1, 2, 3, 4]}}
-\\item \\texttt{{elements\\_uniques([5, 5, 5])}} doit renvoyer \\texttt{{[5]}}
-\\end{{itemize}}"""
-        },
-        {
             'question': f"""Écrire une fonction \\texttt{{indice\\_element(liste, valeur)}} qui renvoie l'indice de la première occurrence de \\texttt{{valeur}} dans la liste. Si \\texttt{{valeur}} n'est pas dans la liste, renvoyer \\texttt{{-1}} (sans utiliser \\texttt{{.index()}}).
 
 Exemples :
 \\begin{{itemize}}
 \\item \\texttt{{indice\\_element([5, 3, 8, 3], 8)}} doit renvoyer \\texttt{{2}}
 \\item \\texttt{{indice\\_element([5, 3, 8], 1)}} doit renvoyer \\texttt{{-1}}
-\\end{{itemize}}"""
-        },
-        {
-            'question': f"""Écrire une fonction \\texttt{{nb\\_majuscules(mot)}} qui renvoie le nombre de lettres majuscules dans une chaîne.
-
-Indice : utiliser \\texttt{{.isupper()}} sur chaque caractère.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{nb\\_majuscules('Bonjour NSI')}} doit renvoyer \\texttt{{4}}
-\\item \\texttt{{nb\\_majuscules('abc')}} doit renvoyer \\texttt{{0}}
 \\end{{itemize}}"""
         },
         # --- Boucle sur une chaîne avec if ---
@@ -983,33 +889,6 @@ Exemples :
 \\begin{{itemize}}
 \\item \\texttt{{compter\\_chiffres('nsi2025')}} doit renvoyer \\texttt{{4}}
 \\item \\texttt{{compter\\_chiffres('{mot1}')}} doit renvoyer \\texttt{{0}}
-\\end{{itemize}}"""
-        },
-        {
-            'question': f"""Écrire une fonction \\texttt{{premiere\\_majuscule(mot)}} qui renvoie le premier caractère majuscule trouvé dans la chaîne, ou \\texttt{{None}} si aucun n'est trouvé.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{premiere\\_majuscule('bonjour NSI')}} doit renvoyer \\texttt{{'N'}}
-\\item \\texttt{{premiere\\_majuscule('{mot1}')}} doit renvoyer \\texttt{{None}}
-\\end{{itemize}}"""
-        },
-        {
-            'question': f"""Écrire une fonction \\texttt{{alterner\\_casse(mot)}} qui renvoie une nouvelle chaîne où les voyelles (a, e, i, o, u, y) sont mises en majuscule et les consonnes en minuscule.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{alterner\\_casse('python')}} doit renvoyer \\texttt{{''.join(c.upper() if c in 'aeiouy' else c.lower() for c in 'python')}}
-\\item \\texttt{{alterner\\_casse('nsi')}} doit renvoyer \\texttt{{''.join(c.upper() if c in 'aeiouy' else c.lower() for c in 'nsi')}}
-\\end{{itemize}}"""
-        },
-        {
-            'question': f"""Écrire une fonction \\texttt{{retirer\\_doublons\\_chaine(mot)}} qui renvoie une nouvelle chaîne ne contenant que la première occurrence de chaque caractère, dans l'ordre d'apparition.
-
-Exemples :
-\\begin{{itemize}}
-\\item \\texttt{{retirer\\_doublons\\_chaine('mississippi')}} doit renvoyer \\texttt{{''.join(dict.fromkeys('mississippi'))}}
-\\item \\texttt{{retirer\\_doublons\\_chaine('aabbcc')}} doit renvoyer \\texttt{{'abc'}}
 \\end{{itemize}}"""
         },
         # --- Boucle avec range() et if ---

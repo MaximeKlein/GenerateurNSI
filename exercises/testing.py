@@ -17,31 +17,51 @@ def generate_exercises(niveau, count=5):
 
 # ── Formateur LaTeX ───────────────────────────────────────────────────────────
 
-def _fmt(description, code, appel, attendu, obtenu, nb_erreurs):
+def _fmt(description, code, appel, attendu, obtenu, nb_erreurs, erreur_python=None):
     """Formate un exercice de débogage en LaTeX."""
-    n_str  = "une erreur"  if nb_erreurs == 1 else f"{nb_erreurs} erreurs"
-    l_str  = "l'erreur"    if nb_erreurs == 1 else "les erreurs"
+    n_str = "une erreur"  if nb_erreurs == 1 else f"{nb_erreurs} erreurs"
+    l_str = "l'erreur"    if nb_erreurs == 1 else "les erreurs"
+
+    if erreur_python:
+        intro = (f"La fonction suivante est censée \\textbf{{{description}}}, "
+                 f"mais elle provoque une erreur.")
+    else:
+        intro = (f"La fonction suivante est censée \\textbf{{{description}}}, "
+                 f"mais elle contient \\textbf{{{n_str}}}.")
 
     parts = [
-        f"La fonction suivante est censée \\textbf{{{description}}}, "
-        f"mais elle contient \\textbf{{{n_str}}}.",
+        intro,
         "",
         "\\begin{lstlisting}",
         code,
         "\\end{lstlisting}",
         "",
-        f"\\textbf{{Exemple :}} \\texttt{{{appel}}} renvoie \\texttt{{{obtenu}}} "
-        f"alors qu'elle devrait renvoyer \\texttt{{{attendu}}}.",
-        "",
-        f"\\textbf{{a) Identifiez et expliquez {l_str} :}}",
+    ]
+
+    if erreur_python:
+        parts += [
+            f"\\textbf{{Message d'erreur Python :}} \\texttt{{{erreur_python}}}",
+            "",
+        ]
+
+    parts += [
+        f"\\textbf{{a)}} Entourez {l_str} dans le code ci-dessus.",
         "",
     ]
-    for _ in range(nb_erreurs):
-        parts += ["\\cadreligne", ""]
+
+    is_syntax = erreur_python and (erreur_python.startswith("SyntaxError")
+                                   or erreur_python.startswith("IndentationError"))
+    if is_syntax:
+        qb = "\\textbf{b)} Écrivez la ligne corrigée :"
+    elif erreur_python:
+        qb = "\\textbf{b)} Écrivez un appel de la fonction qui déclenche cette erreur :"
+    else:
+        qb = "\\textbf{b)} Écrivez un appel de la fonction qui met en évidence le problème :"
+
     parts += [
-        "\\textbf{b) Réécrivez la version corrigée :}",
+        qb,
         "",
-        "\\fbox{\\parbox{14cm}{\\rule{0pt}{4.5cm}}}",
+        "\\fbox{\\parbox{12cm}{\\rule{0pt}{1.5cm}}}",
     ]
     return "\n".join(parts)
 
@@ -52,7 +72,6 @@ def gen_niveau1():
     a  = random.randint(5, 15)
     b  = random.randint(2, 6)
     pair   = random.randint(1, 8) * 2
-    impair = random.randint(1, 8) * 2 + 1
 
     templates = [
         # ── Logique : condition ou retour inversé ──
@@ -73,15 +92,6 @@ def gen_niveau1():
     else:
         return a""",
             appel=f"maximum({a}, {b})", attendu=str(max(a, b)), obtenu=str(min(a, b)),
-        ),
-        dict(
-            description="renvoyer le minimum de deux nombres",
-            code="""def minimum(a, b):
-    if a < b:
-        return b
-    else:
-        return a""",
-            appel=f"minimum({a}, {b})", attendu=str(min(a, b)), obtenu=str(max(a, b)),
         ),
         dict(
             description="calculer la valeur absolue de \\texttt{x} (sans utiliser \\texttt{abs})",
@@ -111,24 +121,6 @@ def gen_niveau1():
             appel="est\\_vide([])", attendu="True", obtenu="False",
         ),
         dict(
-            description="renvoyer \\texttt{True} si \\texttt{n} est impair, \\texttt{False} sinon",
-            code="""def est_impair(n):
-    if n % 2 == 0:
-        return True
-    else:
-        return False""",
-            appel=f"est\\_impair({impair})", attendu="True", obtenu="False",
-        ),
-        dict(
-            description="renvoyer \\texttt{True} si \\texttt{n} est divisible par \\texttt{d}",
-            code="""def est_divisible(n, d):
-    if n % d != 0:
-        return True
-    else:
-        return False""",
-            appel=f"est\\_divisible({b * 3}, {b})", attendu="True", obtenu="False",
-        ),
-        dict(
             description="calculer la différence \\texttt{a - b}",
             code="""def difference(a, b):
     return a + b""",
@@ -146,7 +138,6 @@ def gen_niveau1():
     return a + b""",
             appel=f"produit({a}, {b})", attendu=str(a * b), obtenu=str(a + b),
         ),
-        # ── Cas limite : mauvaise borne ou cas manqué ──
         dict(
             description="renvoyer \\texttt{True} si \\texttt{x} est strictement positif",
             code="""def est_positif(x):
@@ -155,15 +146,6 @@ def gen_niveau1():
     else:
         return False""",
             appel="est\\_positif(0)", attendu="False", obtenu="True",
-        ),
-        dict(
-            description="renvoyer \\texttt{True} si \\texttt{x} est strictement négatif",
-            code="""def est_negatif(x):
-    if x <= 0:
-        return True
-    else:
-        return False""",
-            appel="est\\_negatif(0)", attendu="False", obtenu="True",
         ),
         dict(
             description="renvoyer \\texttt{True} si \\texttt{a} est strictement supérieur à \\texttt{b}",
@@ -175,59 +157,10 @@ def gen_niveau1():
             appel=f"strictement\\_superieur({a}, {a})", attendu="False", obtenu="True",
         ),
         dict(
-            description="renvoyer \\texttt{True} si le mot commence par une voyelle (a, e, i, o, u ou y)",
-            code="""def commence_par_voyelle(mot):
-    if mot[0] in 'aeiou':
-        return True
-    else:
-        return False""",
-            appel="commence\\_par\\_voyelle('yeux')", attendu="True", obtenu="False",
-        ),
-        # ── Erreur courante : mauvaise opération ou variable ──
-        dict(
             description="renvoyer l'opposé de \\texttt{n}",
             code="""def oppose(n):
     return n""",
             appel=f"oppose({a})", attendu=str(-a), obtenu=str(a),
-        ),
-        dict(
-            description="convertir un mot en minuscules",
-            code="""def en_minuscules(mot):
-    return mot.upper()""",
-            appel="en\\_minuscules('PYTHON')", attendu="'python'", obtenu="'PYTHON'",
-        ),
-        dict(
-            description="renvoyer le reste de la division de \\texttt{a} par \\texttt{b}",
-            code="""def reste(a, b):
-    return a // b""",
-            appel=f"reste({a}, {b})", attendu=str(a % b), obtenu=str(a // b),
-        ),
-        dict(
-            description="calculer la somme de \\texttt{a} et \\texttt{b}",
-            code="""def somme(a, b):
-    return a * b""",
-            appel=f"somme({a}, {b})", attendu=str(a + b), obtenu=str(a * b),
-        ),
-        dict(
-            description="renvoyer le premier caractère d'un mot",
-            code="""def premier_caractere(mot):
-    return mot[-1]""",
-            appel="premier\\_caractere('python')", attendu="'p'", obtenu="'n'",
-        ),
-        dict(
-            description="renvoyer le dernier caractère d'un mot",
-            code="""def dernier_caractere(mot):
-    return mot[0]""",
-            appel="dernier\\_caractere('python')", attendu="'n'", obtenu="'p'",
-        ),
-        dict(
-            description="renvoyer \\texttt{True} si un mot contient la lettre 'a'",
-            code="""def contient_a(mot):
-    if 'a' not in mot:
-        return True
-    else:
-        return False""",
-            appel="contient\\_a('chat')", attendu="True", obtenu="False",
         ),
         dict(
             description="renvoyer \\texttt{True} si deux mots ont la même longueur",
@@ -238,10 +171,100 @@ def gen_niveau1():
         return False""",
             appel="meme\\_longueur('abc', 'xyz')", attendu="True", obtenu="False",
         ),
+        # ── Erreurs syntaxe / runtime ──
+        dict(
+            description="renvoyer \\texttt{True} si \\texttt{n} vaut 0, \\texttt{False} sinon",
+            code="""def est_nul(n):
+    if n = 0:
+        return True
+    else:
+        return False""",
+            appel="est\\_nul(0)", attendu="True", obtenu="SyntaxError",
+            erreur_python="SyntaxError: invalid syntax",
+        ),
+        dict(
+            description="renvoyer le signe de \\texttt{n} sous forme de chaîne (\\texttt{'+'} ou \\texttt{'-'})",
+            code="""def signe(n)
+    if n >= 0:
+        return '+'
+    else:
+        return '-'""",
+            appel=f"signe({a})", attendu="'+'", obtenu="SyntaxError",
+            erreur_python="SyntaxError: expected ':'",
+        ),
+        dict(
+            description="renvoyer \\texttt{True} si \\texttt{n} est strictement positif",
+            code="""def est_positif(n):
+    if n > 0:
+    return True
+    else:
+        return False""",
+            appel="est\\_positif(5)", attendu="True", obtenu="IndentationError",
+            erreur_python="IndentationError: expected an indented block after 'if' statement",
+        ),
+        dict(
+            description="calculer la valeur absolue de \\texttt{n} (sans \\texttt{abs})",
+            code="""def valeur_absolue(n):
+    if n >= 0:
+        return n
+    else:
+        retrun -n""",
+            appel=f"valeur\\_absolue({-b})", attendu=str(b), obtenu="NameError",
+            erreur_python="NameError: name 'retrun' is not defined",
+        ),
+        dict(
+            description="renvoyer le double de \\texttt{n}",
+            code="""def double(n):
+    if n >= 0:
+        return x * 2
+    else:
+        return -x * 2""",
+            appel=f"double({b})", attendu=str(b * 2), obtenu="NameError",
+            erreur_python="NameError: name 'x' is not defined",
+        ),
+        dict(
+            description="renvoyer le carré de \\texttt{n}",
+            code="""def carre(n):
+    resutat = n * n
+    return resultat""",
+            appel=f"carre({b})", attendu=str(b ** 2), obtenu="NameError",
+            erreur_python="NameError: name 'resultat' is not defined",
+        ),
+        dict(
+            description="renvoyer \\texttt{True} si le mot a plus de \\texttt{n} caractères",
+            code="""def assez_long(mot, n):
+    if len(mot) > "n":
+        return True
+    else:
+        return False""",
+            appel="assez\\_long('python', 3)", attendu="True", obtenu="TypeError",
+            erreur_python="TypeError: '>' not supported between instances of 'int' and 'str'",
+        ),
+        dict(
+            description="renvoyer la longueur de la liste si elle est non vide, 0 sinon",
+            code="""def longueur(liste):
+    if liste:
+        return len[liste]
+    else:
+        return 0""",
+            appel="longueur([1, 2, 3])", attendu="3", obtenu="TypeError",
+            erreur_python="TypeError: 'builtin_function_or_method' object is not subscriptable",
+        ),
+        dict(
+            description="renvoyer le message '\\texttt{n} est positif' si \\texttt{n} est positif, '\\texttt{n} est negatif' sinon",
+            code="""def message_signe(n):
+    if n > 0:
+        return n + " est positif"
+    else:
+        return n + " est negatif" """,
+            appel=f"message\\_signe({b})", attendu=f"'{b} est positif'", obtenu="TypeError",
+            erreur_python="TypeError: unsupported operand type(s) for +: 'int' and 'str'",
+        ),
     ]
     t = random.choice(templates)
     return {'content': _fmt(t['description'], t['code'], t['appel'],
-                            t['attendu'], t['obtenu'], t.get('nb_erreurs', 1))}
+                            t['attendu'], t['obtenu'], t.get('nb_erreurs', 1),
+                            t.get('erreur_python'))}
 
 
 # ── Niveau 2 : boucle for (sans if), 1 erreur ────────────────────────────────
@@ -265,7 +288,8 @@ def gen_niveau2():
     return total""",
             appel=f"somme\\_liste({lst})",
             attendu=str(sum(lst)),
-            obtenu="une erreur \\texttt{TypeError} (\\texttt{range()} attend un entier, pas une liste)",
+            obtenu="une erreur \\texttt{TypeError}",
+            erreur_python="TypeError: 'list' object cannot be interpreted as an integer",
         ),
         dict(
             description="renvoyer une liste où chaque élément est doublé",
@@ -277,6 +301,7 @@ def gen_niveau2():
             appel=f"doubler({petite})",
             attendu=str([x * 2 for x in petite]),
             obtenu="une erreur \\texttt{TypeError}",
+            erreur_python="TypeError: 'list' object cannot be interpreted as an integer",
         ),
         # ── Cas limite : range(n) au lieu de range(1, n+1) ──
         dict(
@@ -430,10 +455,63 @@ def gen_niveau2():
             attendu=str(sum(lst)),
             obtenu=str(sum(range(len(lst)))),
         ),
+        # ── SyntaxError : deux-points manquants après for ──
+        dict(
+            description="calculer la somme des éléments d'une liste",
+            code="""def somme_liste2(liste):
+    total = 0
+    for x in liste
+        total += x
+    return total""",
+            appel=f"somme\\_liste2({lst})",
+            attendu=str(sum(lst)),
+            obtenu="SyntaxError",
+            erreur_python="SyntaxError: expected ':'",
+        ),
+        # ── IndentationError : corps de boucle non indenté ──
+        dict(
+            description="renvoyer la liste des carrés des entiers de 1 à \\texttt{n}",
+            code="""def carres(n):
+    resultat = []
+    for i in range(1, n + 1):
+    resultat.append(i ** 2)
+    return resultat""",
+            appel=f"carres({m})",
+            attendu=str([i ** 2 for i in range(1, m + 1)]),
+            obtenu="IndentationError",
+            erreur_python="IndentationError: expected an indented block after 'for' statement",
+        ),
+        # ── NameError : mauvaise variable dans le corps de boucle ──
+        dict(
+            description="calculer la somme des éléments d'une liste",
+            code="""def somme_elements(liste):
+    total = 0
+    for element in liste:
+        total += valeur
+    return total""",
+            appel=f"somme\\_elements({lst})",
+            attendu=str(sum(lst)),
+            obtenu="NameError",
+            erreur_python="NameError: name 'valeur' is not defined",
+        ),
+        # ── TypeError : concaténation entier + chaîne dans boucle ──
+        dict(
+            description="construire la chaîne des éléments d'une liste séparés par des virgules",
+            code="""def liste_en_chaine(liste):
+    resultat = ""
+    for x in liste:
+        resultat += x + ", "
+    return resultat""",
+            appel=f"liste\\_en\\_chaine({petite})",
+            attendu=", ".join(str(x) for x in petite),
+            obtenu="TypeError",
+            erreur_python="TypeError: unsupported operand type(s) for +: 'str' and 'int'",
+        ),
     ]
     t = random.choice(templates)
     return {'content': _fmt(t['description'], t['code'], t['appel'],
-                            t['attendu'], t['obtenu'], t.get('nb_erreurs', 1))}
+                            t['attendu'], t['obtenu'], t.get('nb_erreurs', 1),
+                            t.get('erreur_python'))}
 
 
 # ── Niveau 3 : for + if, 2 erreurs ───────────────────────────────────────────
@@ -502,20 +580,6 @@ def gen_niveau3():
             obtenu=str([i for i in range(c * 4) if i % c == 0]),
             nb_erreurs=2,
         ),
-        # ── mauvaise condition voyelle + mauvaise variable dans append ──
-        dict(
-            description="renvoyer la liste des voyelles présentes dans un mot",
-            code="""def lister_voyelles(mot):
-    resultat = []
-    for i in range(len(mot)):
-        if mot[i] in 'aeiou':
-            resultat.append(i)
-    return resultat""",
-            appel=f"lister\_voyelles('{mot[:5]}')",
-            attendu=str([c for c in mot[:5] if c in 'aeiouy']),
-            obtenu=str([i for i, c in enumerate(mot[:5]) if c in 'aeiou']),
-            nb_erreurs=2,
-        ),
         # ── condition inversée + mauvais sens de construction ──
         dict(
             description="renvoyer une liste avec uniquement les éléments négatifs d'une liste",
@@ -558,20 +622,6 @@ def gen_niveau3():
             obtenu="une erreur \\texttt{TypeError} (de plus, \\texttt{=} au lieu de \\texttt{+=})",
             nb_erreurs=2,
         ),
-        # ── mauvaise comparaison de chaîne + mauvaise variable ──
-        dict(
-            description="compter le nombre de voyelles dans un mot",
-            code="""def compter_voyelles(mot):
-    compteur = 0
-    for i in range(len(mot)):
-        if i in 'aeiouy':
-            compteur += 1
-    return compteur""",
-            appel=f"compter\_voyelles('{mot}')",
-            attendu=str(sum(1 for c in mot if c in 'aeiouy')),
-            obtenu="0 (on compare un indice entier à une chaîne, jamais vrai)",
-            nb_erreurs=2,
-        ),
         # ── missing else branch + wrong comparison ──
         dict(
             description="renvoyer la liste des éléments remplacés par 0 s'ils sont négatifs, "
@@ -601,11 +651,57 @@ def gen_niveau3():
             obtenu="[15, 12] (on itère sur les valeurs, pas les clés)",
             nb_erreurs=2,
         ),
+        # ── NameError : typo dans variable à l'intérieur d'un for+if ──
+        dict(
+            description="renvoyer la liste des éléments strictement positifs",
+            code="""def filtrer_positifs(liste):
+    resultat = []
+    for x in liste:
+        if x > 0:
+            resultat.append(elemnt)
+    return resultat""",
+            appel=f"filtrer\\_positifs({lst_mix})",
+            attendu=str([x for x in lst_mix if x > 0]),
+            obtenu="NameError",
+            nb_erreurs=1,
+            erreur_python="NameError: name 'elemnt' is not defined",
+        ),
+        # ── IndentationError : if mal indenté dans for ──
+        dict(
+            description="compter les éléments strictement supérieurs à un seuil",
+            code=f"""def compter_superieurs(liste, seuil):
+    compteur = 0
+    for x in liste:
+    if x > seuil:
+        compteur += 1
+    return compteur""",
+            appel=f"compter\\_superieurs({lst_int}, {seuil})",
+            attendu=str(sum(1 for x in lst_int if x > seuil)),
+            obtenu="IndentationError",
+            nb_erreurs=1,
+            erreur_python="IndentationError: expected an indented block after 'for' statement",
+        ),
+        # ── TypeError : opération incorrecte dans for+if ──
+        dict(
+            description="renvoyer la somme des longueurs des mots d'une liste",
+            code="""def somme_longueurs(mots):
+    total = 0
+    for mot in mots:
+        if mot:
+            total += mot
+    return total""",
+            appel="somme\\_longueurs(['python', 'nsi', 'code'])",
+            attendu="14",
+            obtenu="TypeError",
+            nb_erreurs=1,
+            erreur_python="TypeError: unsupported operand type(s) for +=: 'int' and 'str'",
+        ),
     ]
     t = random.choice(templates)
     nb = t.get('nb_erreurs', 2)
     return {'content': _fmt(t['description'], t['code'], t['appel'],
-                            t['attendu'], t['obtenu'], nb)}
+                            t['attendu'], t['obtenu'], nb,
+                            t.get('erreur_python'))}
 
 
 # ── Niveau 4 : double boucle for, 2-3 erreurs ────────────────────────────────
@@ -760,7 +856,8 @@ def gen_niveau4():
     t = random.choice(templates)
     nb = t.get('nb_erreurs', 2)
     return {'content': _fmt(t['description'], t['code'], t['appel'],
-                            t['attendu'], t['obtenu'], nb)}
+                            t['attendu'], t['obtenu'], nb,
+                            t.get('erreur_python'))}
 
 
 # ── Niveau 5 : code complexe, 3 erreurs ──────────────────────────────────────
@@ -785,20 +882,6 @@ def gen_niveau5():
             appel=f"tri_selection({lst[:4]})",
             attendu=str(sorted(lst[:4])),
             obtenu="une liste partiellement triée par ordre décroissant, sans le premier élément",
-            nb_erreurs=3,
-        ),
-        # ── Inversion de chaîne + suppression voyelles : 3 erreurs ──
-        dict(
-            description="renvoyer un mot sans voyelles et inversé",
-            code="""def transformer(mot):
-    resultat = ""
-    for i in range(mot):
-        if mot[i] not in 'aeiouy':
-            resultat = resultat + mot[i]
-    return resultat""",
-            appel=f"transformer('{mot[:6]}')",
-            attendu=f"'{''.join(c for c in mot[:6] if c not in 'aeiouy')[::-1]}'",
-            obtenu="une erreur \\texttt{TypeError} (et deux autres erreurs dans le code)",
             nb_erreurs=3,
         ),
         # ── Fusion de deux listes triées : 3 erreurs ──
@@ -875,4 +958,5 @@ def gen_niveau5():
     t = random.choice(templates)
     nb = t.get('nb_erreurs', 3)
     return {'content': _fmt(t['description'], t['code'], t['appel'],
-                            t['attendu'], t['obtenu'], nb)}
+                            t['attendu'], t['obtenu'], nb,
+                            t.get('erreur_python'))}

@@ -105,14 +105,6 @@ def generate_niveau1():
             'question': f"Que renvoie \\texttt{{{nom}({a - 1})}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}} \\ Et \\texttt{{{nom}({a + 1})}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}}"
         },
         {
-            'code': f"""def {nom}(texte):
-    if len(texte) {cmp} {c}:
-        return texte[0] + texte[-1]
-    else:
-        return texte.upper()""",
-            'question': f"Que renvoie \\texttt{{{nom}('{s3}')}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}} \\ Et \\texttt{{{nom}('{s1}')}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}}"
-        },
-        {
             'code': f"""def {nom}(x, y):
     if x + y {cmp} {a + b}:
         return (x + y) {op1} {c}
@@ -376,36 +368,6 @@ def generate_niveau3():
             resultat.append(0)
     return resultat""",
             'question': f"Que renvoie \\texttt{{{nom}({lst_int})}} ? \\fbox{{\\parbox{{9cm}}{{\\rule{{0pt}}{{1cm}}}}}}"
-        },
-        # --- sur une chaîne ---
-        {
-            'code': f"""def {nom}(texte):
-    voyelles = 0
-    for lettre in texte:
-        if lettre in 'aeiouy':
-            voyelles += 1
-    return voyelles""",
-            'question': f"Que renvoie \\texttt{{{nom}('{mot}')}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}}"
-        },
-        {
-            'code': f"""def {nom}(mot):
-    resultat = ""
-    for c in mot:
-        if c not in 'aeiouy':
-            resultat += c
-    return resultat""",
-            'question': f"Que renvoie \\texttt{{{nom}('{mot}')}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}}"
-        },
-        {
-            'code': f"""def {nom}(mot):
-    resultat = ""
-    for c in mot:
-        if c in 'aeiouy':
-            resultat += c.upper()
-        else:
-            resultat += c
-    return resultat""",
-            'question': f"Que renvoie \\texttt{{{nom}('{mot}')}} ? \\fbox{{\\parbox{{5cm}}{{\\rule{{0pt}}{{1cm}}}}}}"
         },
         # --- avec range et if ---
         {
