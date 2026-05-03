@@ -41,7 +41,7 @@ def _fmt(description, code, nb_erreurs=1, erreur_python=None):
 
     if erreur_python:
         parts += [
-            f"\\textbf{{Message d'erreur Python :}} \\texttt{{{erreur_python}}}",
+            f"\\textbf{{Message d'erreur Python :}} \\texttt{{{erreur_python.replace('_','\\_')}}}",
             "",
         ]
 

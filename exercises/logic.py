@@ -5,7 +5,7 @@ from exercises import nonogram as _nonogram
 
 
 # Poids de tirage par type de puzzle [alien, sudoku, nonogram]
-_POIDS = ['alien', 'alien', 'sudoku', 'nonogram']
+_POIDS = ['alien', 'sudoku', 'nonogram']
 
 
 def generate_exercises(niveau, count=5):
@@ -25,8 +25,11 @@ def generate_exercises(niveau, count=5):
     config = configs[niveau]
     exercises = []
 
-    for _ in range(count):
-        type_puzzle = random.choice(_POIDS)
+    for i in range(count):
+        if i<len(_POIDS):
+            type_puzzle=_POIDS[i]
+        else:
+            type_puzzle = random.choice(_POIDS)
 
         if type_puzzle == 'alien':
             grille = generer_grille_aliens(
